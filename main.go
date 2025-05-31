@@ -38,7 +38,10 @@ func main() {
 	}
 	tasks := cfg.getAllTasks()
 	fmt.Println(tasks)
-	task := cfg.createTask("Test!")
+	task, err := cfg.createTask("Test!")
+	if err != nil {
+		log.Fatalf("Error creating task: %v", err)
+	}
 	fmt.Println(task)
 
 }

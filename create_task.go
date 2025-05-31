@@ -8,7 +8,7 @@ import (
 	"github.com/ywallis/go_task/database"
 )
 
-func (a *appConfig) createTask(name string) task{
+func (a *appConfig) createTask(name string) (task, error){
 
 	queryParams := database.CreateTaskParams{
 		Name:      name,
@@ -17,11 +17,11 @@ func (a *appConfig) createTask(name string) task{
 	}
 	dbtask, err := a.db.CreateTask(context.Background(), queryParams)
 	if err != nil {
-		fmt.Printf("Error while creating task: %s\n", err)
+		return task{}, fmt.Errorf("Error while creating task: %s\n", err)
 	}
 	output := task{
 		id:   int(dbtask.ID),
 		name: dbtask.Name,
 	}
-	return output
+	return output, nil
 }
